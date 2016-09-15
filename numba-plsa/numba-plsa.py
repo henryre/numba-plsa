@@ -1,7 +1,7 @@
 import numpy as np
 
 def normalize_basic(p):
-    p /= p.sum(axis=p.size[-1], keepdims=True)
+    p /= p.sum(axis=len(p.size)-1, keepdims=True)
 
 def plsa(doc_term, n_topics, n_iter, method='basic'):
     # Get size
