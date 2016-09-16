@@ -2,6 +2,11 @@
 pLSA for sparse matrices implemented with Numba. Wicked fast.
 
 ### Performance comparisons
-| Implementation | Corpus size | Vocabulary size | Number of iterations | Time (best of 3) |
+
+First, we compare to a popular Python pLSA package. Using the same initializations, the two methods gave the same solutions.
+
+| Implementation | Corpus size | Vocabulary size | Number of topics | Number of iterations | Time (best of 3) |
 |:--------------:|:-----------:|:---------------:|:--------------------:|:----------------:|
-| Numba pLSA     | TKTKTK      | TKTKTK          | TKTKTK               | TKTKTK           |
+| [PLSA package](https://github.com/hitalex/PLSA) | 13 | 2126 | 5 | 30 | 45.7 s |
+| numba-plsa, basic | 13 | 2126 | 5 | 30 | 0.075 s |
+
