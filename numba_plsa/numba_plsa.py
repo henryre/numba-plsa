@@ -69,7 +69,7 @@ def plsa_numba(doc_term, topic_doc, term_topic, n_iter):
                     topic_full[d, t, :] = p / np.sum(p)
             ### Maximization ###
             # Compute full likelihood table
-            for z in xrange(n_terms):
+            for z in xrange(n_topics):
                 dist_table[:, :, z] = doc_term * topic_full[:, :, z]
             # Maximize over terms conditioned on topics
             term_topic[:] = 0
