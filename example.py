@@ -22,13 +22,9 @@ def get_article_text(fname):
 def print_title(txt):
   print "\n{0}\n{1}".format(txt, '=' * len(txt))
 
-def main(stopword_file, data_extract):
-
-  stops = get_stopwords(stopword_file)
-
+def plsa_example(data_extract, stopwords):
   print_title("Building corpus")
-  
-  CB = CorpusBuilder(stopwords=stops, min_len=4, max_len=8)
+  CB = CorpusBuilder(stopwords=stopwords, min_len=4, max_len=8)
   doc_count = 0
   for root, directories, fnames in os.walk(data_extract):
     for fname in fnames:
@@ -46,5 +42,6 @@ if __name__ == '__main__':
 
   print_title("Fetching data")
   get_data()
+  stops = get_stopwords(stopword_file)
 
-  main(stopword_file, data_extract)
+  plsa_example(data_extract, stops)
