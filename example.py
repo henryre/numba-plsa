@@ -66,11 +66,7 @@ def main():
  
   print_title("\nRunning pLSA")
   n_topics, n_iter = 20, 25
-  #topic_doc, term_topic = plsa(doc_term, n_topics, n_iter, min_count=20)
-  topic_doc_n, term_topic_n = plsa(doc_term, n_topics, n_iter, min_count=20, method='numba')
-  
-  print_title("Getting results")
-
+  topic_doc, term_topic = plsa(doc_term, n_topics, n_iter, min_count=20)
 
 if __name__ == '__main__':
   main()
