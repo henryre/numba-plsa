@@ -1,8 +1,7 @@
-import tarfile
 import os
+from get_data import data_extract, get_data, stopword_file
 from numba_plsa.corpus import CorpusBuilder
 from numba_plsa.plsa import plsa
-from urllib import urlretrieve
 
 def get_stopwords(fname):
   with open(fname, 'rb') as f:
@@ -23,32 +22,7 @@ def get_article_text(fname):
 def print_title(txt):
   print "\n{0}\n{1}".format(txt, '=' * len(txt))
 
-def main():
-
-  data_dir = 'data'
-  data_file = os.path.join(data_dir, 'mini_newsgroups.tar.gz')
-  data_extract = os.path.join(data_dir, 'mini_newsgroups')
-  stopword_file = os.path.join(data_dir, 'stop.txt')
-  data_uri = 'https://archive.ics.uci.edu/ml/machine-learning-databases/20newsgroups-mld/mini_newsgroups.tar.gz'
-  stopword_uri = 'http://snowball.tartarus.org/algorithms/english/stop.txt'
-
-  print_title("Fetching data")
-  
-  if not os.path.isdir(data_dir):
-    os.mkdir(data_dir)
-  if not os.path.isfile(data_file) and not os.path.isdir(data_extract):
-    print "Downloading newsgroups data"
-    urlretrieve(data_uri, data_file)
-  if not os.path.isdir(data_extract):
-    print "Extracting newsgroups data"
-    tar = tarfile.open(data_file, "r:gz")
-    tar.extractall(path=data_extract)
-    tar.close()
-  if os.path.isfile(data_file):
-    os.remove(data_file)
-  if not os.path.isfile(stopword_file):
-    print "Downloading stopwords"
-    urlretrieve(stopword_uri, stopword_file)
+def main(stopword_file, data_extract):
 
   stops = get_stopwords(stopword_file)
 
@@ -69,4 +43,8 @@ def main():
   topic_doc, term_topic = plsa(doc_term, n_topics, n_iter, min_count=20)
 
 if __name__ == '__main__':
-  main()
+
+  print_title("Fetching data")
+  get_data()
+
+  main(stopword_file, data_extract)
