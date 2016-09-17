@@ -22,4 +22,4 @@ def plsa_basic(doc_term, topic_doc, term_topic, n_iter):
             topic_doc = np.sum(dist_table, axis=1)
             normalize_basic(topic_doc)
 
-        return topic_full, topic_doc, term_topic
+        return topic_doc, term_topic

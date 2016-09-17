@@ -1,4 +1,5 @@
 import numba
+import numpy as np
 
 @numba.jit(nopython=True)
 def plsa_numba(doc_term, topic_doc, term_topic, n_iter):
@@ -31,4 +32,4 @@ def plsa_numba(doc_term, topic_doc, term_topic, n_iter):
             for d in xrange(n_docs):
                 topic_doc[d] /= np.sum(topic_doc[d])
 
-        return topic_full, topic_doc, term_topic
+        return topic_doc, term_topic
