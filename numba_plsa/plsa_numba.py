@@ -44,18 +44,3 @@ def plsa_numba(doc_term, topic_doc, term_topic, n_iter):
       for z in xrange(n_topics):
         topic_doc[d, z] /= doc_sum[d]
 
-    # Maximize over terms conditioned on topics
-    #for d in xrange(n_docs):
-    #  for t in xrange(n_terms):
-    #    for z in xrange(n_topics):
-    #      term_topic[z, t] += dist_table[d, t, z] 
-    #            
-    #  term_topic += dist_table[d, :, :].transpose()
-    #for z in xrange(n_topics):
-    #  term_topic[z] /= np.sum(term_topic[z])
-    # Maximize over topics conditioned on documents
-    #for t in xrange(n_terms):
-    #  topic_doc += dist_table[:, t, :]
-    #for d in xrange(n_docs):
-    #  topic_doc[d] /= np.sum(topic_doc[d])
-

@@ -4,8 +4,6 @@ def normalize_basic(p):
   p /= p.sum(axis=len(p.shape)-1, keepdims=True)
 
 def plsa_basic(doc_term, topic_doc, term_topic, n_iter):
-  print type(doc_term)
-
   n_docs, n_topics = topic_doc.shape
   n_terms = term_topic.shape[1]
 
