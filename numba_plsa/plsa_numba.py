@@ -10,7 +10,6 @@ def plsa_numba(doc_term, topic_doc, term_topic, n_iter):
   dist_table = np.zeros_like(topic_full, dtype=np.double)
   
   term_sum = np.zeros((n_topics))
-  doc_sum = np.zeros((n_docs))
 
   for i in xrange(n_iter):
     ### Expectation ###
@@ -24,23 +23,24 @@ def plsa_numba(doc_term, topic_doc, term_topic, n_iter):
         for z in xrange(n_topics):
           topic_full[d, t, z] = p[z] / s
     ### Maximization ###
-    # Compute full likelihood table
     topic_doc[:] = 0
     term_topic[:] = 0
-    doc_sum[:] = 0
     term_sum[:] = 0
     for d in xrange(n_docs):
+      s = 0
       for t in xrange(n_terms):
         for z in xrange(n_topics):
+          # Add likelihood term
           q = doc_term[d, t] * topic_full[d, t, z]
           term_topic[z, t] += q
           term_sum[z] += q
           topic_doc[d, z] += q
-          doc_sum[d] += q
+          s += q
+      # Normalize P(topic | doc)
+      for z in xrange(n_topics):
+        topic_doc[d, z] /= s
+    # Normalize P(term | topic)
     for z in xrange(n_topics):
       for t in xrange(n_terms):
         term_topic[z, t] /= term_sum[z]
-    for d in xrange(n_docs):
-      for z in xrange(n_topics):
-        topic_doc[d, z] /= doc_sum[d]
 

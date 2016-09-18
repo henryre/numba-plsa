@@ -3,12 +3,12 @@ import numpy as np
 def normalize_basic(p):
   p /= p.sum(axis=len(p.shape)-1, keepdims=True)
 
-def plsa_basic(doc_term, topic_doc, term_topic, n_iter):
+def plsa_basic(doc_term, topic_doc, term_topic, n_iter, verbose=False):
   n_docs, n_topics = topic_doc.shape
   n_terms = term_topic.shape[1]
 
   for i in xrange(n_iter):
-    if i % 5 == 0:
+    if verbose and (i % 5 == 0):
       print "Running iteration {0}".format(i)
     ### Expectation ###
     topic_full = topic_doc[:, np.newaxis, :] * term_topic.T
