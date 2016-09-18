@@ -59,18 +59,18 @@ def plsa(doc_term, n_topics, n_iter, min_count=1, method='basic'):
 
     start = time.clock()
     if method == 'basic':
-        p_t_d, p_w_t = plsa_basic(doc_term, topic_doc, term_topic, n_iter)
+        topic_doc, term_topic = plsa_basic(doc_term, topic_doc, term_topic, n_iter)
     elif method == 'numba':
-        p_t_d, p_w_t = plsa_numba(doc_term, topic_doc, term_topic, n_iter)
+        plsa_numba(doc_term, topic_doc, term_topic, n_iter)
     else:
         raise ValueError('Unrecognized method <{0}>'.format(method))
     elapsed = time.clock() - start
     print "\nRan {0} iterations in {1:.3f} seconds".format(n_iter, elapsed)
 
-    p_t_d_all = np.zeros((n_docs, n_topics))
-    p_t_d_all[keep_doc, :] = p_t_d
+    topic_doc_all = np.zeros((n_docs, n_topics))
+    topic_doc_all[keep_doc, :] = topic_doc
 
-    p_w_t_all = np.zeros((n_topics, n_terms))
-    p_w_t_all[:, keep_term] = p_w_t
+    term_topic_all = np.zeros((n_topics, n_terms))
+    term_topic_all[:, keep_term] = term_topic
 
-    return p_t_d_all, p_w_t_all
+    return topic_doc_all, term_topic_all

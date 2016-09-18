@@ -40,7 +40,7 @@ def plsa_example(data_extract, stopwords):
   print_title("\nRunning pLSA")
   P = PLSAModel()
   n_topics = 10
-  P.train(doc_term, n_topics=n_topics, n_iter=20, min_count=15)
+  P.train(doc_term, n_topics=n_topics, n_iter=20, min_count=15, method='numba')
   
   print_title("\nTop topic terms")
   top_topic_words = P.top_topic_terms(5, normalized=True)
