@@ -8,7 +8,8 @@ def plsa_basic(doc_term, topic_doc, term_topic, n_iter):
         n_terms = term_topic.shape[1]
 
         for i in xrange(n_iter):
-            print "Running iteration {0}".format(i+1)
+            if i % 5 == 0:
+              print "Running iteration {0}".format(i)
             ### Expectation ###
             topic_full = topic_doc[:, np.newaxis, :] * term_topic.T
             normalize_basic(topic_full)

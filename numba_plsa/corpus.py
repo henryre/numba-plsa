@@ -2,21 +2,28 @@ import numpy as np
 from collections import defaultdict
 
 class CorpusBuilder(object):
-  def __init__(self, stopwords=None, min_len=3, max_len=12):
+  def __init__(self, stopwords=None, min_len=3, max_len=12,
+               alpha_only=True, lower=True):
     self.stops = stopwords or set()
     self.mn = min_len
     self.mx = max_len
+    self.alpha_only = alpha_only
+    self.lower = lower
     self.vocab_table = dict()
     self.vocab_list = list()
     self.doc_table = dict()
     self.doc_list = list()
     self.docs = list()
 
+  def _char_filter(self, c):
+    return ord(c) < 128 and ((not self.alpha_only) or c.isalpha())
+
   def clean(self, word):
-    word = ''.join(c for c in word if ord(c) < 128)
+    word = ''.join(c for c in word if self._char_filter(c))
+    word = word.lower() if self.lower else word
     if len(word) < self.mn or len(word) > self.mx or word in self.stops:
         return None
-    return word
+    return word.lower() if self.lower else word
 
   def add_document(self, text, name=None):
     name = name or str(len(self.docs))
