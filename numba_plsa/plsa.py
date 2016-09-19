@@ -1,4 +1,5 @@
 import numpy as np
+import scipy.sparse as sparse
 import time
 from plsa_basic import normalize_basic, plsa_basic
 from plsa_numba import plsa_numba
@@ -35,6 +36,8 @@ def plsa(doc_term, n_topics, n_iter, min_count=1, method='basic'):
     n_keep_docs = int(np.sum(keep_doc))
     doc_term = doc_term[keep_doc, :]
 
+    sp = sparse.coo_matrix(doc_term)
+
     # Initialize distributions
     topic_doc = np.random.rand(n_keep_docs, n_topics)
     normalize_basic(topic_doc)
@@ -54,14 +57,14 @@ def plsa(doc_term, n_topics, n_iter, min_count=1, method='basic'):
         ============================
     """.format(
       method, n_iter, n_keep_docs, n_docs, min_count, n_keep_terms, n_terms,
-      n_topics, np.mean(doc_term != 0)
+      n_topics, float(sp.nnz) / np.product(sp.shape) 
     )
 
     start = time.clock()
     if method == 'basic':
         topic_doc, term_topic = plsa_basic(doc_term, topic_doc, term_topic, n_iter)
     elif method == 'numba':
-        plsa_numba(doc_term, topic_doc, term_topic, n_iter)
+        plsa_numba(sp.row, sp.col, sp.data, topic_doc, term_topic, n_iter)
     else:
         raise ValueError('Unrecognized method <{0}>'.format(method))
     elapsed = time.clock() - start

@@ -1,4 +1,5 @@
 import numpy as np
+import scipy.sparse as sparse
 import time
 from numba_plsa.plsa import plsa_basic, plsa_numba, normalize_basic
 
@@ -52,22 +53,35 @@ def set_problem(n_docs, n_terms, n_topics, sparsity=0.95):
   d = np.random.rand(n_docs, n_terms)
   ct = 3 * np.round(np.abs(np.random.randn(n_docs, n_terms)))
   doc_term = (d > sparsity) * (1 + ct)
-  doc_term[:, np.random.permutation(n_terms)] = 1
-  doc_term[np.random.permutation(n_docs), :] = 1
+  doc_term[np.random.choice(n_docs, n_terms), np.arange(n_terms)] = 1
 
   return doc_term, topic_doc, term_topic
 
-def test(f, n, doc_term, topic_doc, term_topic, n_iter):
+def test_numba(n, r, c, d, td, tt, n_iter):
   times = []
   for t in xrange(n):
-    doc_term_c = doc_term.copy()
-    topic_doc_c = topic_doc.copy()
-    term_topic_c = term_topic.copy()
+    r_c = r.copy()
+    c_c = c.copy()
+    d_c = d.copy()
+    td_c = td.copy()
+    tt_c = tt.copy()
     start = time.clock()
-    f(doc_term_c, topic_doc_c, term_topic_c, n_iter)
+    plsa_numba(r_c, c_c, d_c, td_c, tt_c, n_iter)
     end = time.clock()
     times.append(end - start)
-  return min(times), topic_doc, term_topic
+  return min(times), td_c, tt_c
+
+def test_basic(n, dt, td, tt, n_iter):
+  times = []
+  for t in xrange(n):
+    dt_c = dt.copy()
+    td_c = td.copy()
+    tt_c = tt.copy()
+    start = time.clock()
+    plsa_basic(dt_c, td_c, tt_c, n_iter)
+    end = time.clock()
+    times.append(end - start)
+  return min(times), td_c, tt_c
 
 if __name__ == '__main__':
   problem_specs = [
@@ -80,12 +94,14 @@ if __name__ == '__main__':
                   ]
   for prob in problem_specs:
     print "n_docs={0}\tn_terms={1}\tn_topics={2}".format(*prob)
-    doc_term, topic_doc, term_topic = set_problem(*prob)
-    numba_best = test(plsa_numba, 3, doc_term, topic_doc, term_topic, 10)
+    dt, td, tt = set_problem(*prob)
+    sdt = sparse.coo_matrix(dt)
+    n_iter = 10
+    numba_best = test_numba(3, sdt.row, sdt.col, sdt.data, td, tt, n_iter)
     print "numba time (best of 3):\t{0}s".format(numba_best[0])
-    basic_best = test(plsa_basic, 3, doc_term, topic_doc, term_topic, 10)
+    basic_best = test_basic(3, dt, td, tt, n_iter)
     print "basic time (best of 3):\t{0}s".format(basic_best[0])
-    #port_best = test(plsa_port, 3, doc_term, topic_doc, term_topic, 10)
+    #port_best = test_port(3, dt, td, tt, n_iter)
     #print "port time (best of 3):\t{0}s".format(port_best[0])
     if (np.allclose(numba_best[1], basic_best[1])): #and 
         #np.allclose(numba_best[1], port_best[1])):
@@ -97,5 +113,4 @@ if __name__ == '__main__':
       print "All term_topic distributions close!"
     else:
       print "term_topic distributions not close"
-    
     
