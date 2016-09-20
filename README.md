@@ -32,7 +32,7 @@ Topic 9: chi, det, suck, cubs, pit
 Topic 10: cramer, theism, odwyer, bds, clayton
 ```
 
-We can assign coherent labels to most topics, such as "pharmaceuticals" for Topic 2, "middle east" for Topic 8, and "baseball" for Topic 9. Adjusting corpus construction parameters, running for iterations, or changing the number of topics can yield even better results.
+We can assign coherent labels to most topics, such as "pharmaceuticals" for Topic 2, "middle east" for Topic 8, and "baseball" for Topic 9. Adjusting corpus construction parameters, running for more iterations, or changing the number of topics can yield even better results.
 
 ### Performance comparisons
 
