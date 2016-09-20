@@ -65,9 +65,9 @@ def test_numba(n, r, c, d, td, tt, n_iter):
     d_c = d.copy()
     td_c = td.copy()
     tt_c = tt.copy()
-    start = time.clock()
+    start = time.time()
     plsa_numba(r_c, c_c, d_c, td_c, tt_c, n_iter)
-    end = time.clock()
+    end = time.time()
     times.append(end - start)
   return min(times), td_c, tt_c
 
@@ -77,9 +77,9 @@ def test_basic(n, dt, td, tt, n_iter):
     dt_c = dt.copy()
     td_c = td.copy()
     tt_c = tt.copy()
-    start = time.clock()
+    start = time.time()
     plsa_basic(dt_c, td_c, tt_c, n_iter)
-    end = time.clock()
+    end = time.time()
     times.append(end - start)
   return min(times), td_c, tt_c
 
@@ -96,21 +96,11 @@ if __name__ == '__main__':
     print "n_docs={0}\tn_terms={1}\tn_topics={2}".format(*prob)
     dt, td, tt = set_problem(*prob)
     sdt = sparse.coo_matrix(dt)
-    n_iter = 10
+    n_iter = 50 
     numba_best = test_numba(3, sdt.row, sdt.col, sdt.data, td, tt, n_iter)
-    print "numba time (best of 3):\t{0}s".format(numba_best[0])
+    print "\tnumba time / iter (best of 3):\t{0}s".format(numba_best[0] / n_iter)
     basic_best = test_basic(3, dt, td, tt, n_iter)
-    print "basic time (best of 3):\t{0}s".format(basic_best[0])
+    print "\tbasic time / iter (best of 3):\t{0}s".format(basic_best[0] / n_iter)
     #port_best = test_port(3, dt, td, tt, n_iter)
-    #print "port time (best of 3):\t{0}s".format(port_best[0])
-    if (np.allclose(numba_best[1], basic_best[1])): #and 
-        #np.allclose(numba_best[1], port_best[1])):
-      print "All topic_doc distributions close!"
-    else:
-      print "topic_doc distributions not close"
-    if (np.allclose(numba_best[2], basic_best[2])): #and 
-        #np.allclose(numba_best[2], port_best[2])):
-      print "All term_topic distributions close!"
-    else:
-      print "term_topic distributions not close"
+    #print "port time / iter (best of 3):\t{0}s".format(port_best[0] / n_iter)
     
