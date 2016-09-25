@@ -1,3 +1,4 @@
+enum34
+numba>=0.17
 numpy>=1.11
 scipy>=0.17
-numba>=0.17
