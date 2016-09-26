@@ -38,7 +38,7 @@ We can assign coherent labels to most topics, such as "pharmaceuticals" for Topi
 
 We compare the two implementations on artificial problems of different sizes, all with document-term matrix sparsity around 95% (which is fairly dense for a text-based corpus). These results were obtained on a standard laptop with 4 GB of RAM available. The script `speed_test.py` can be used to recreate the figures. 
 
-| Corpus size | Vocabulary size | Number of topics | Basic method avg. time / iteration (best of 3) | Numba method avg. time  / iteration (best of 3) |
+| Corpus size | Vocab size | Number of topics | Basic method avg. time / iteration (best of 3) | Numba method avg. time  / iteration (best of 3) |
 |:-----------:|:---------------:|:----------------:|:----------------------------------------------:|:-----------------------------------------------:|
 | 100  | 500  | 10 | 0.0047 s | **0.00058 s** |
 | 250  | 1000 | 10 | 0.024 s  | **0.0028 s**  |
@@ -49,7 +49,7 @@ We compare the two implementations on artificial problems of different sizes, al
 
 We can also compare numba-plsa to a popular Python package on GitHub: [PLSA](https://github.com/hitalex/PLSA). We used the example data from the PLSA repo. The two methods resulted the same distributions when using the same initializations.
 
-| Implementation | Corpus size | Vocabulary size | Number of topics | Number of iterations | Time (best of 3) |
+| Implementation | Corpus size | Vocab size | Number of topics | Number of iterations | Time (best of 3) |
 |:--------------:|:-----------:|:---------------:|:----------------:|:----------------:|:----------------:|
 | [PLSA package](https://github.com/hitalex/PLSA) | 13 | 2126 | 5 | 30 | 44.89 s |
 | numba-plsa, basic | 13 | 2126 | 5 | 30 | 0.082 s |
