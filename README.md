@@ -51,6 +51,6 @@ We can also compare numba-plsa to a popular Python package on GitHub: [PLSA](htt
 
 | Implementation | Corpus size | Vocabulary size | Number of topics | Number of iterations | Time (best of 3) |
 |:--------------:|:-----------:|:---------------:|:----------------:|:----------------:|:----------------:|
-| [PLSA package](https://github.com/hitalex/PLSA) | 13 | 2126 | 5 | 30 | 45.70 s |
-| numba-plsa, basic | 13 | 2126 | 5 | 30 | 0.08 s |
-
+| [PLSA package](https://github.com/hitalex/PLSA) | 13 | 2126 | 5 | 30 | 44.89 s |
+| numba-plsa, basic | 13 | 2126 | 5 | 30 | 0.082 s |
+| numba-plsa, numba | 13 | 2126 | 5 | 30 | 0.006 s |
