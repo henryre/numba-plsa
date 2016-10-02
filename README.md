@@ -47,6 +47,8 @@ We compare the two implementations on artificial problems of different sizes, al
 | 2000 | 6000 | 10 | 2.59 s   | **0.12 s**    |
 | 3000 | 5000 | 10 | 3.26 s   | **0.13 s**    |
 
+The file `large_speed_test.py` carries out a test for a large matrix: 10,000 documents and 100,000 terms in the vocabulary with 99% sparsity (10 million non-zero entries). Running a 5 topic model for 10 iterations takes around 30 seconds, or 3 seconds per iteration.
+
 We can also compare numba-plsa to a popular Python package on GitHub: [PLSA](https://github.com/hitalex/PLSA). We used the example data from the PLSA repo. The two methods resulted the same distributions when using the same initializations.
 
 | Implementation | Corpus size | Vocab size | Number of topics | Number of iterations | Time (best of 3) |
