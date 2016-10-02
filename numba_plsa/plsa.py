@@ -77,3 +77,34 @@ def plsa(doc_term, n_topics, n_iter, min_count=1, method='basic'):
     term_topic_all[:, keep_term] = term_topic
 
     return topic_doc_all, term_topic_all
+
+def plsa_direct(doc_term, n_topics, n_iter):
+    # Get size
+    n_docs, n_terms = doc_term.shape
+
+    # Initialize distributions
+    topic_doc = np.random.rand(n_docs, n_topics)
+    normalize_basic(topic_doc)
+
+    term_topic = np.random.rand(n_topics, n_terms)
+    normalize_basic(term_topic)
+
+    # Run pLSA algorithm
+    print """
+        Running numba pLSA algorithm
+        ============================
+        Number of iterations: {0}
+        Number of documents: {1}
+        Number of terms: {2}
+        Number of topics: {3}
+        Sparsity factor: {4:.5f}
+        ============================
+    """.format(n_iter, n_docs, n_terms, n_topics, float(doc_term.nnz) / np.product(doc_term.shape))
+
+    start = time.clock()
+    plsa_numba(doc_term.row, doc_term.col, doc_term.data, topic_doc, term_topic, n_iter)
+    elapsed = time.clock() - start
+    print "\nRan {0} iterations in {1:.3f} seconds".format(n_iter, elapsed)
+
+    return topic_doc, term_topic
+
