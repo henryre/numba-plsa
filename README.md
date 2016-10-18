@@ -1,5 +1,5 @@
-# Numba pLSA
-pLSA for sparse matrices implemented with Numba. Wicked fast.
+# Numba PLSA
+PLSA for sparse matrices implemented with Numba. Wicked fast.
 
 ### Installation
 
@@ -11,7 +11,7 @@ pLSA for sparse matrices implemented with Numba. Wicked fast.
 
 ### Usage
 
-The numba-plsa package provides two implementations: a basic NumPy method and a numba method. The `plsa` method wraps the basic algorithmic functionality, and the algorithm is chosen by using the `method` argument (`method='numba'` or `method='basic'`, the default). The basic method works for any NumPy document-term matrix, whereas the numba method is optimized for sparse matrices. The `plsa` method automatically converts the input document-term matrix to a COO sparse matrix.
+The numba-plsa package provides two implementations: a basic NumPy method and a numba method. The `plsa` method wraps the basic algorithmic functionality, and the algorithm is chosen by using the `method` argument (`method='numba'` or `method='basic'`, the default). The basic method works for any NumPy document-term matrix, whereas the numba method is optimized for sparse matrices. The `plsa` method automatically converts the input document-term matrix to a COO sparse matrix. The `plsa_direct` method is also available, which assumes the input is already in COO form and skips some precomputation for faster performance on large matrices.
 
 Two very basic classes are included to assist with topic modeling tasks for text corpora. The `Corpus` class takes on text documents and can build a document-term matrix. The `PLSAModel` class has a `train` method which provides an interface to `plsa`.
 
